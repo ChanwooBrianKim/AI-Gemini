@@ -1,3 +1,4 @@
+// Basic form and list
 const typingForm = document.querySelector(".typing-form");
 const chatList = document.querySelector(".chat-list");
 
