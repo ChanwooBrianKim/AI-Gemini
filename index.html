@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Gemini</title>
+    <!-- Google fonts for icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <!-- Header Greetings -->
+        <h2 class="title">Hi, there</h2>
+        <h4 class="subtitle">How can I help you today</h4>
+
+        <!-- Suggestion List -->
+         <ul class="suggestion-list">
+            <li class="suggestion">
+                <h4 class="text">Help Me!!!</h4>
+                <sapn class="icon material-symbols-rounded">Favorite</sapn>
+            </li>
+            <li class="suggestion">
+                <h4 class="text">Help!!!</h4>
+                <sapn class="icon material-symbols-rounded">lightbulb</sapn>
+            </li>
+            <li class="suggestion">
+                <h4 class="text">Great</h4>
+                <sapn class="icon material-symbols-rounded">explore</sapn>
+            </li>
+            <li class="suggestion">
+                <h4 class="text">Love</h4>
+                <sapn class="icon material-symbols-rounded">check</sapn>
+            </li>
+         </ul>
+    </header>
+
+    <!-- Chat list / Container -->
+    <div class="chat-list"></div>
+
+    <!-- Typing Area -->
+    <div class="typing-area">
+        <form action="#" class="typing-form">
+            <div class="input-wrapper">
+                <input type="text" placeholder="Enter a prompt here"
+                class="typing-input" required>
+                <button class="icon material-symbols-rounded">Send</button>    
+            </div>
+            <div class="action-buttons">
+                <span class="icon material-symbols-rounded">light_mode</sapn>
+            </div>
+            <div>
+                <span class="icon material-symbols-rounded">delete</sapn>
+            </div>        
+        </form>
+        <p class="disclaimer">
+            Gemini could display inaccurate information, including about people, so double-check its facts.
+        </p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
