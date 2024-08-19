@@ -8,7 +8,7 @@ export const createMessageElement = (content, ...classes) => {
     return div;
 }
 
-// Show a typing effect for the incoming message
+// Function to show a typing effect for the incoming message
 export const showTypingEffect = (text, textElement, incomingMessageDiv) => {
     const words = text.split(' ');
     let currentWordIndex = 0;
@@ -21,16 +21,16 @@ export const showTypingEffect = (text, textElement, incomingMessageDiv) => {
         if (currentWordIndex === words.length) {
             clearInterval(typingInterval);
             incomingMessageDiv.querySelector(".icon").classList.remove("hide");
-            localStorage.setItem("savedChats", chatList.innerHTML);
+            localStorage.setItem("savedChats", chatList.innerHTML); // Save chat to local storage
         }
-        chatList.scrollTo(0, chatList.scrollHeight);
+        chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom of the chat list
     }, 75);
 }
 
-// Show a loading animation for the incoming message
+// Function to show a loading animation for the incoming message
 export const showLoadingAnimation = () => {
     const html = `<div class="message-content">
-                    <img src="image/gemini.png" alt="Gemini Image" class="avatar">
+                    <img src="/image/gemini.png" alt="Gemini Image" class="avatar">
                     <p class="text"></p>
                     <div class="loading-indicator">
                         <div class="loading-bar"></div>
@@ -43,7 +43,7 @@ export const showLoadingAnimation = () => {
     const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
     chatList.appendChild(incomingMessageDiv);
 
-    chatList.scrollTo(0, chatList.scrollHeight);
+    chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom of the chat list
     return incomingMessageDiv;
 }
 
@@ -52,6 +52,6 @@ export const copyMessage = (copyIcon) => {
     const messageText = copyIcon.parentElement.querySelector(".text").innerText;
 
     navigator.clipboard.writeText(messageText);
-    copyIcon.innerText = "done";
-    setTimeout(() => copyIcon.innerText = "content_copy", 1000);
+    copyIcon.innerText = "done"; // Temporarily change the icon to a checkmark
+    setTimeout(() => copyIcon.innerText = "content_copy", 1000); // Revert the icon back after 1 second
 }
