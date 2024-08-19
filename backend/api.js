@@ -1,5 +1,5 @@
 // API configuration
-const API_KEY = "AIzaSyB2x4RCAaYXneNAK7_dtSwll4SGMEZ79J8";
+const API_KEY = "YOUR_API_KEY";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 /**
