@@ -9,7 +9,7 @@ const handleOutgoingChat = () => {
     if (!userMessageInput) return;
 
     const html = `<div class="message-content">
-                    <img src="image/user.png" alt="User Image" class="avatar">
+                    <img src="/image/user.png" alt="User Image" class="avatar">
                     <p class="text"></p>
                 </div>`;
 
