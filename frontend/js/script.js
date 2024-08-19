@@ -1,4 +1,3 @@
-// Basic form and list
 const typingForm = document.querySelector(".typing-form");
 const chatList = document.querySelector(".chat-list");
 const suggestions = document.querySelectorAll(".suggestion-list .suggestion");
@@ -9,7 +8,7 @@ let userMessage = null;
 let isResponseGenerating = false;
 
 // API configuration
-const API_KEY = "YOUR_API_KEY"; // Replace with your API key
+const API_KEY = "YOUR_API_KEY";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 const loadLocalstorageData = () => {
@@ -99,7 +98,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
     const html = `<div class="message-content">
-                    <img src="image/gemini.png" alt="Gemini Image" class="avatar">
+                    <img src="../../image/gemini.png" alt="Gemini Image" class="avatar">
                     <p class="text"></p>
                     <div class="loading-indicator">
                         <div class="loading-bar"></div>
@@ -131,9 +130,9 @@ const handleOutgoingChat = () => {
     if (!userMessage || isResponseGenerating) return; // Exit if there is no message
 
     isResponseGenerating = true;
-    
+
     const html = `<div class="message-content">
-                    <img src="/image/user.png" alt="User Image" class="avatar">
+                    <img src="../../image/user.png" alt="User Image" class="avatar">
                     <p class="text"></p>
                 </div>`;
 
