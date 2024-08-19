@@ -1,51 +1,40 @@
-// Handle all event listeners and user interactions in this file.
-import { typingForm, toggleThemeButton, deleteChatButton, chatList, loadLocalstorageData } from "./core.js"; // Import necessary variables and functions from core.js
-import { showLoadingAnimation, createMessageElement } from "./ui.js"; // Import UI-related functions from ui.js
-import { generateAPIResponse } from "../../backend/api.js"; // Import the API function from backend
+import { handleOutgoingChat } from './main.js';
+import { loadLocalStorageData } from './core.js';
 
-// Handle sending outgoing chat messages
-const handleOutgoingChat = () => {
-    const userMessageInput = typingForm.querySelector(".typing-input").value.trim();
-    if (!userMessageInput) return;
+export const setupEventListeners = (
+    typingForm,
+    chatList,
+    toggleThemeButton,
+    deleteChatButton,
+    suggestions
+) => {
+    // Toggle between light and dark mode
+    toggleThemeButton.addEventListener("click", () => {
+        const isLightMode = document.body.classList.toggle("light_mode");
+        localStorage.setItem("themeColor", isLightMode ? "light_mode" : "dark_mode");
+        toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
+    });
 
-    const html = `<div class="message-content">
-                    <img src="/image/user.png" alt="User Image" class="avatar">
-                    <p class="text"></p>
-                </div>`;
+    // Delete all chats from local storage when button is clicked
+    deleteChatButton.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete all chats?")) {
+            localStorage.removeItem("savedChats");
+            loadLocalStorageData(chatList, toggleThemeButton);
+        }
+    });
 
-    // Create an outgoing message element and append it to the chat list
-    const outgoingMessageDiv = createMessageElement(html, "outgoing");
-    outgoingMessageDiv.querySelector(".text").innerText = userMessageInput;
-    chatList.appendChild(outgoingMessageDiv);
+    // Set userMessage and handle outgoing chat when a suggestion is clicked
+    suggestions.forEach(suggestion => {
+        suggestion.addEventListener("click", () => {
+            const userMessage = suggestion.querySelector(".text").innerText;
+            handleOutgoingChat(userMessage);
+        });
+    });
 
-    // Reset the form, scroll to the bottom of the chat list, and show loading animation
-    typingForm.reset();
-    chatList.scrollTo(0, chatList.scrollHeight);
-
-    // Simulate API response after a delay
-    setTimeout(() => {
-        const incomingMessageDiv = showLoadingAnimation();
-        generateAPIResponse(incomingMessageDiv);
-    }, 500);
-}
-
-// Add event listeners for form submission, theme toggling, and chat deletion
-typingForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    handleOutgoingChat();
-});
-
-// Toggle light/dark theme on button click
-toggleThemeButton.addEventListener("click", () => {
-    const isLightMode = document.body.classList.toggle("light_mode");
-    localStorage.setItem("themeColor", isLightMode ? "light_mode" : "dark_mode");
-    toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
-});
-
-// Delete all chats from local storage on button click
-deleteChatButton.addEventListener("click", () => {
-    if (confirm("Are you sure you want to delete all chats?")) {
-        localStorage.removeItem("savedChats");
-        loadLocalstorageData();
-    }
-});
+    // Prevent default form submission and handle outgoing chat
+    typingForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const userMessage = typingForm.querySelector(".typing-input").value.trim();
+        handleOutgoingChat(userMessage);
+    });
+};
