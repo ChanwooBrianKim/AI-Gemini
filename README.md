@@ -65,23 +65,24 @@ This project requires an API key to access the Google Generative Language API. T
 - **⚠️Chat Not Loading**: Check if the images in the img folder are correctly referenced and that the API is returning valid responses.
 - **API Request Issues**: Make sure your API key is valid and correctly placed in api.js.
 - **CORS Errors**: Always run the project through a local server to avoid CORS issues.
+
 ## 🗂️Project Structure
 
     ```bash
     ai-gemini/
     │
-    ├── backend/ # Backend-related files
-    │ ├── api.js # API interactions and server-side logic
+    ├── backend/               # Backend-related files
+    │   └── api.js             # API interactions and server-side logic
     │
-    ├── frontend/ # Frontend-related files
-    │ ├── js/ # JavaScript files for frontend
-    │ │ ├── core.js # Core logic and setup
-    │ │ ├── ui.js # UI manipulation functions
-    │ │ ├── events.js # Event listeners and handlers
-    │ │ └── main.js # Entry point for frontend scripts
-    │ ├── css/ # CSS files
-    │ │ └── style.css # Main stylesheet
-    │ ├── image/ # Images used in the project (e.g., user.png, gemini.png)
-    │ └── index.html # HTML file for the frontend
+    ├── frontend/              # Frontend-related files
+    │   ├── js/                # JavaScript files for frontend
+    │   │   ├── core.js        # Core logic and global state management
+    │   │   ├── ui.js          # UI manipulation functions
+    │   │   ├── events.js      # Event listeners and handlers
+    │   │   └── main.js        # Entry point for frontend scripts
+    │   ├── css/               # CSS files
+    │   │   └── style.css      # Main stylesheet
+    │   ├── image/             # Images used in the project (e.g., user.png, gemini.png)
+    │   └── index.html         # HTML file for the frontend
     │
-    └── README.md # Project documentation
+    └── README.md              # Project documentation
