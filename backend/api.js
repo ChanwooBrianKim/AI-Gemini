@@ -2,7 +2,7 @@ import { userMessage } from "../frontend/js/core.js"; // Import the userMessage 
 import { showTypingEffect } from "../frontend/js/ui.js"; // Import the showTypingEffect function
 
 // API configuration
-const API_KEY = "AIzaSyCYK8b7ORN6VtwzN9gcN9sn4A0Q9mqwRxo";
+const API_KEY = "YOUR_API_KEY"; // Replace with your API key
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 // Export the generateAPIResponse function
