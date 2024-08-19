@@ -1,52 +1,39 @@
-import { userMessage } from "../frontend/js/core.js"; // Import the userMessage variable
-import { showTypingEffect } from "../frontend/js/ui.js"; // Import the showTypingEffect function
-
 // API configuration
-const API_KEY = "YOUR_API_KEY"; // Replace with your API key
+const API_KEY = "AIzaSyB2x4RCAaYXneNAK7_dtSwll4SGMEZ79J8";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
-// Export the generateAPIResponse function
-export const generateAPIResponse = async (incomingMessageDiv) => {
-    // Get the text element from the incoming message div
-    const textElement = incomingMessageDiv.querySelector('.text');
-
-    // Try to fetch the response from the API
+/**
+ * Sends a POST request to the API with the user's message and retrieves the response.
+ * @param {string} userMessage - The user's message to send to the API.
+ * @returns {Promise<string>} - The API's response as a string.
+ */
+export const fetchAPIResponse = async (userMessage) => {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                prompt: { text: userMessage },
-                temperature: 0.7,
-                maxOutputTokens: 100,
+                contents: [{
+                    role: "user",
+                    parts: [{ text: userMessage }]
+                }]
             })
         });
 
-        // Check if the response is not OK (status code is not in the 200-299 range)
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error.message || 'Unknown error occurred');
-        }
-
-        // Parse the JSON response
         const data = await response.json();
+        if (!response.ok) throw new Error(data.error.message);
 
-        // Extract and clean up the API response text
-        const apiResponse = data?.candidates?.[0]?.output || "No response received";
+        // Extract the API response text and remove asterisks used for bold text in the response
+        const apiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g, '$1');
 
-        // Display the response or handle errors
         if (apiResponse) {
-            showTypingEffect(apiResponse, textElement, incomingMessageDiv);
+            return apiResponse;
         } else {
             console.error('API response does not contain the expected data structure.');
-            textElement.innerText = "Unexpected API response structure.";
-            textElement.classList.add("error");
+            return 'Unexpected response format from the API.';
         }
     } catch (error) {
         console.error('Error fetching API response:', error);
-        textElement.innerText = "Failed to get a response from the server.";
-        textElement.classList.add("error");
-    } finally {
-        incomingMessageDiv.classList.remove("loading");
+        return 'Failed to get a response from the server.';
     }
-}
+};
