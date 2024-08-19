@@ -1,36 +1,27 @@
-import { chatList } from './core.js'; // Import the chatList variable
+import { createMessageElement, setIsResponseGenerating, getIsResponseGenerating } from './core.js'; 
+import { generateAPIResponse } from './main.js';
 
-// Show a typing effect for the incoming message
-export const createMessageElement = (content, ...classes) => {
-    const div = document.createElement("div");
-    div.classList.add("message", ...classes);
-    div.innerHTML = content;
-    return div;
-}
-
-// Function to show a typing effect for the incoming message
-export const showTypingEffect = (text, textElement, incomingMessageDiv) => {
+export const showTypingEffect = (text, textElement, incomingMessageDiv, chatList) => {
     const words = text.split(' ');
-    let currentWordIndex = 0;
+    let currentWordIndex = 0; 
 
-    // Display each word with a typing effect
     const typingInterval = setInterval(() => {
         textElement.innerText += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
         incomingMessageDiv.querySelector(".icon").classList.add("hide");
 
-        if (currentWordIndex === words.length) {
+        if (currentWordIndex === words.length) { 
             clearInterval(typingInterval);
+            setIsResponseGenerating(false);
             incomingMessageDiv.querySelector(".icon").classList.remove("hide");
-            localStorage.setItem("savedChats", chatList.innerHTML); // Save chat to local storage
+            localStorage.setItem("savedChats", chatList.innerHTML); // Save chat
         }
-        chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom of the chat list
+        chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom
     }, 75);
-}
+};
 
-// Function to show a loading animation for the incoming message
-export const showLoadingAnimation = () => {
+export const showLoadingAnimation = (chatList, userMessage) => {
     const html = `<div class="message-content">
-                    <img src="/image/gemini.png" alt="Gemini Image" class="avatar">
+                    <img src="../../image/gemini.png" alt="Gemini Image" class="avatar">
                     <p class="text"></p>
                     <div class="loading-indicator">
                         <div class="loading-bar"></div>
@@ -38,20 +29,25 @@ export const showLoadingAnimation = () => {
                         <div class="loading-bar"></div>
                     </div>
                 </div>
-                <span onClick="copyMessage(this)" class="icon material-symbols-rounded">content_copy</span>`;
+                <span class="icon material-symbols-rounded copy-icon">content_copy</span>`;
 
     const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
     chatList.appendChild(incomingMessageDiv);
 
-    chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom of the chat list
-    return incomingMessageDiv;
-}
+    // Attach the copyMessage function to the icon
+    const copyIcon = incomingMessageDiv.querySelector('.copy-icon');
+    copyIcon.addEventListener('click', () => copyMessage(copyIcon));
 
-// Copy the message text to the clipboard
+    chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom
+
+    // Call generateAPIResponse with the correct parameters
+    generateAPIResponse(incomingMessageDiv, userMessage);
+};
+
 export const copyMessage = (copyIcon) => {
     const messageText = copyIcon.parentElement.querySelector(".text").innerText;
 
     navigator.clipboard.writeText(messageText);
-    copyIcon.innerText = "done"; // Temporarily change the icon to a checkmark
-    setTimeout(() => copyIcon.innerText = "content_copy", 1000); // Revert the icon back after 1 second
-}
+    copyIcon.innerText = "done"; // Show tick icon
+    setTimeout(() => copyIcon.innerText = "content_copy", 1000); // Revert icon after 1 second
+};
