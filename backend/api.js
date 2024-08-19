@@ -2,7 +2,7 @@ import { userMessage } from "../frontend/js/core.js"; // Import the userMessage 
 import { showTypingEffect } from "../frontend/js/ui.js"; // Import the showTypingEffect function
 
 // API configuration
-const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
+const API_KEY = "AIzaSyCYK8b7ORN6VtwzN9gcN9sn4A0Q9mqwRxo";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 // Export the generateAPIResponse function
@@ -16,7 +16,7 @@ export const generateAPIResponse = async (incomingMessageDiv) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                prompt: { text: userMessage }, // Adjust the body according to API documentation
+                prompt: { text: userMessage },
                 temperature: 0.7,
                 maxOutputTokens: 100,
             })
