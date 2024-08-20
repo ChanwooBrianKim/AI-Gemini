@@ -1,5 +1,10 @@
+/*
+Manages the interaction with the external API,
+ensuring that the user's message is sent 
+and the AI's response is received correctly.
+*/
 // API configuration
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "AIzaSyB2x4RCAaYXneNAK7_dtSwll4SGMEZ79J8";
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 /**
@@ -7,6 +12,8 @@ const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:
  * @param {string} userMessage - The user's message to send to the API.
  * @returns {Promise<string>} - The API's response as a string.
  */
+
+// Function to fetch API response
 export const fetchAPIResponse = async (userMessage) => {
     try {
         const response = await fetch(API_URL, {

@@ -1,3 +1,7 @@
+/*
+Purpose: Binds user interactions with the corresponding functions 
+to handle events like sending messages, toggling themes, and managing chat history.
+*/
 import { handleOutgoingChat } from './main.js';
 import { loadLocalStorageData } from './core.js';
 

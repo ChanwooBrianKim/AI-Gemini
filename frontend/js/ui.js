@@ -1,10 +1,16 @@
+/*
+Purpose: Handles UI-related effects and animations, 
+ensuring a smooth user experience.
+*/
 import { createMessageElement, setIsResponseGenerating, getIsResponseGenerating } from './core.js'; 
-import { generateAPIResponse } from './main.js';
+import { generateAPIResponse } from './main.js'; // Import generateAPIResponse from main.js
 
+// Function to show typing effect
 export const showTypingEffect = (text, textElement, incomingMessageDiv, chatList) => {
     const words = text.split(' ');
     let currentWordIndex = 0; 
 
+    // Set interval to show typing effect
     const typingInterval = setInterval(() => {
         textElement.innerText += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
         incomingMessageDiv.querySelector(".icon").classList.add("hide");
@@ -19,6 +25,7 @@ export const showTypingEffect = (text, textElement, incomingMessageDiv, chatList
     }, 75);
 };
 
+// Function to show loading animation
 export const showLoadingAnimation = (chatList, userMessage) => {
     const html = `<div class="message-content">
                     <img src="../../image/gemini.png" alt="Gemini Image" class="avatar">
@@ -31,6 +38,7 @@ export const showLoadingAnimation = (chatList, userMessage) => {
                 </div>
                 <span class="icon material-symbols-rounded copy-icon">content_copy</span>`;
 
+    // Create a new message element
     const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
     chatList.appendChild(incomingMessageDiv);
 
@@ -44,6 +52,7 @@ export const showLoadingAnimation = (chatList, userMessage) => {
     generateAPIResponse(incomingMessageDiv, userMessage);
 };
 
+// Function to copy the message text to the clipboard
 export const copyMessage = (copyIcon) => {
     const messageText = copyIcon.parentElement.querySelector(".text").innerText;
 

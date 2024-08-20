@@ -1,13 +1,21 @@
+/*
+Purpose: Manages shared state and utility functions 
+that are used across various other modules.
+*/
+
 export let isResponseGenerating = false;
 
+// Function to set isResponseGenerating value
 export const setIsResponseGenerating = (value) => {
     isResponseGenerating = value;
 };
 
+// Function to get isResponseGenerating value
 export const getIsResponseGenerating = () => {
     return isResponseGenerating;
 };
 
+// Function to create a message element
 export const createMessageElement = (content, ...classes) => {
     const div = document.createElement("div");
     div.classList.add("message", ...classes);
@@ -15,6 +23,7 @@ export const createMessageElement = (content, ...classes) => {
     return div;
 };
 
+// Function to load data from local storage
 export const loadLocalStorageData = (chatList, toggleThemeButton) => {
     const savedChats = localStorage.getItem("savedChats");
     const isLightMode = (localStorage.getItem("themeColor") === "light_mode");

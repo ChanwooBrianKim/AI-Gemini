@@ -1,11 +1,16 @@
-import { fetchAPIResponse } from '../../backend/api.js';
-import { createMessageElement, loadLocalStorageData, setIsResponseGenerating, getIsResponseGenerating } from './core.js';
-import { setupEventListeners } from './events.js';
-import { showTypingEffect, showLoadingAnimation } from './ui.js';
+/*
+Purpose: Acts as the entry point for the frontend, 
+orchestrating the flow of the application by coordinating between different modules.
+*/
+import { fetchAPIResponse } from '../../backend/api.js'; // Import fetchAPIResponse from the backend
+import { createMessageElement, loadLocalStorageData, setIsResponseGenerating, getIsResponseGenerating } from './core.js'; // Import functions from core.js
+import { setupEventListeners } from './events.js'; // Import setupEventListeners from events.js
+import { showTypingEffect, showLoadingAnimation } from './ui.js'; // Import showTypingEffect and showLoadingAnimation from ui.js
 
+// Function to handle outgoing chat messages
 export const handleOutgoingChat = (userMessage) => {
     if (!userMessage || getIsResponseGenerating()) return; // Exit if there is no message
-
+    
     setIsResponseGenerating(true);
 
     const html = `<div class="message-content">
