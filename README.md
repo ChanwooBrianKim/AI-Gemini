@@ -66,6 +66,31 @@ This project requires an API key to access the Google Generative Language API. T
 - **API Request Issues**: Make sure your API key is valid and correctly placed in api.js.
 - **CORS Errors**: Always run the project through a local server to avoid CORS issues.
 
+## User's journey
+
+**User Input**:
+- **Triggered by**: User types a message and submits it via the form.
+- **Handled in**: 'events.js' through the 'setupEventListeners' function, which calls handleOutgoingChat from 'main.js'.
+
+**Message Handling**:
+- **Handled in**: 'main.js' via 'handleOutgoingChat'.
+- **Actions**: Creates a new message element using 'createMessageElement' from 'core.js', appends it to the chat list, and calls showLoadingAnimation from 'ui.js'.
+
+**Loading Animation**:
+- **Handled in**: 'ui.js' via 'showLoadingAnimation'.
+- **Actions**: Displays a loading indicator while the AI response is being fetched, then calls 'generateAPIResponse' from 'main.js'.
+
+**API Response**:
+- **Handled in**: 'main.js' via 'generateAPIResponse'.
+- **Actions**: Fetches the AI response using 'fetchAPIResponse' from 'api.js', then triggers the 'showTypingEffect' in ui.js to display the response.
+
+**UI Updates**:
+- **Handled in**: ui.js via 'showTypingEffect'.
+- **Actions**: Simulates a typing effect and displays the AI's response in the chat.
+
+**Additional Interactions**:
+- **Handled in**: 'ui.js' for actions like copying messages ('copyMessage') and toggling themes ('toggleThemeButton' via event setup in 'events.js').
+
 ## 🗂️Project Structure
 
     ```bash
