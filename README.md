@@ -70,11 +70,11 @@ This project requires an API key to access the Google Generative Language API. T
 
 **User Input**:
 - **Triggered by**: User types a message and submits it via the form.
-- **Handled in**: 'events.js' through the 'setupEventListeners' function, which calls handleOutgoingChat from 'main.js'.
+- **Handled in**: 'events.js' through the 'setupEventListeners' function, which calls 'handleOutgoingChat' from 'main.js'.
 
 **Message Handling**:
 - **Handled in**: 'main.js' via 'handleOutgoingChat'.
-- **Actions**: Creates a new message element using 'createMessageElement' from 'core.js', appends it to the chat list, and calls showLoadingAnimation from 'ui.js'.
+- **Actions**: Creates a new message element using 'createMessageElement' from 'core.js', appends it to the chat list, and calls 'showLoadingAnimation' from 'ui.js'.
 
 **Loading Animation**:
 - **Handled in**: 'ui.js' via 'showLoadingAnimation'.
@@ -82,10 +82,10 @@ This project requires an API key to access the Google Generative Language API. T
 
 **API Response**:
 - **Handled in**: 'main.js' via 'generateAPIResponse'.
-- **Actions**: Fetches the AI response using 'fetchAPIResponse' from 'api.js', then triggers the 'showTypingEffect' in ui.js to display the response.
+- **Actions**: Fetches the AI response using 'fetchAPIResponse' from 'api.js', then triggers the 'showTypingEffect' in 'ui.js' to display the response.
 
 **UI Updates**:
-- **Handled in**: ui.js via 'showTypingEffect'.
+- **Handled in**: 'ui.js' via 'showTypingEffect'.
 - **Actions**: Simulates a typing effect and displays the AI's response in the chat.
 
 **Additional Interactions**:
