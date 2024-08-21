@@ -93,7 +93,7 @@ This project requires an API key to access the Google Generative Language API. T
 
 ## 🗂️Project Structure
 
-    ```bash
+   ```bash
     ai-gemini/
     │
     ├── backend/               # Backend-related files
