@@ -1,0 +1,12 @@
+{
+  "name": "ai-gemini",
+  "version": "1.0.0",
+  "description": "AI Gemini is an interactive web-based chatbot powered by generative language models. It enables users to have conversations with an AI, receiving dynamic and contextually relevant responses. The project also supports light and dark themes and allows users to save and manage their chat history.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
