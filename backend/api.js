@@ -3,8 +3,9 @@ Manages the interaction with the external API,
 ensuring that the user's message is sent 
 and the AI's response is received correctly.
 */
+
 // API configuration
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "YOUR_API_KEY";  // Replace with your actual API key
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 /**
@@ -12,10 +13,9 @@ const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:
  * @param {string} userMessage - The user's message to send to the API.
  * @returns {Promise<string>} - The API's response as a string.
  */
-
-// Function to fetch API response
 export const fetchAPIResponse = async (userMessage) => {
     try {
+        // Send a POST request to the API with the user's message
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -27,12 +27,16 @@ export const fetchAPIResponse = async (userMessage) => {
             })
         });
 
+        // Parse the response JSON
         const data = await response.json();
+
+        // Check if the response is okay, otherwise throw an error
         if (!response.ok) throw new Error(data.error.message);
 
-        // Extract the API response text and remove asterisks used for bold text in the response
+        // Extract the API response text and remove asterisks used for bold text
         const apiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g, '$1');
 
+        // Check if the API response is correctly structured
         if (apiResponse) {
             return apiResponse;
         } else {
