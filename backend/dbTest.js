@@ -7,11 +7,11 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
-export const insertMessage = async (userId, message, sender) => {
+export const insertMessage = async (sender, content) => {
     try {
         const result = await pool.query(
-            'INSERT INTO messages (user_id, sender, content) VALUES ($1, $2, $3) RETURNING *',
-            [userId, sender, message]
+            'INSERT INTO messages (sender, content) VALUES ($1, $2) RETURNING *',
+            [sender, content]
         );
         return result.rows[0];
     } catch (error) {
@@ -20,15 +20,12 @@ export const insertMessage = async (userId, message, sender) => {
     }
 };
 
-export const getConversationByUserId = async (userId) => {
+export const getAllMessages = async () => {
     try {
-        const result = await pool.query(
-            'SELECT * FROM messages WHERE user_id = $1 ORDER BY sent_at ASC',
-            [userId]
-        );
+        const result = await pool.query('SELECT * FROM messages ORDER BY sent_at ASC');
         return result.rows;
     } catch (error) {
-        console.error('Error retrieving conversation:', error);
+        console.error('Error retrieving messages:', error);
         throw error;
     }
 };
