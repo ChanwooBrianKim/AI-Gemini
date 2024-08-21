@@ -3,7 +3,6 @@ Purpose: Acts as the entry point for the frontend,
 orchestrating the flow of the application by coordinating between different modules.
 */
 
-import { fetchAPIResponse } from '../../backend/api.js'; // Import fetchAPIResponse from the backend
 import { 
     createMessageElement, 
     loadLocalStorageData, 
@@ -12,6 +11,22 @@ import {
 } from './core.js'; // Import functions from core.js
 import { setupEventListeners } from './events.js'; // Import setupEventListeners from events.js
 import { showTypingEffect, showLoadingAnimation } from './ui.js'; // Import showTypingEffect and showLoadingAnimation from ui.js
+
+// Function to send a message to the server and retrieve the AI's response
+const sendMessageToServer = async (userMessage) => {
+    try {
+        const response = await fetch('/api/message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userMessage }),
+        });
+        const data = await response.json();
+        return data.response; // Assuming the server returns { response: "AI's response" }
+    } catch (error) {
+        console.error('Error fetching response from server:', error);
+        return 'Failed to get a response from the server.';
+    }
+};
 
 // Function to handle outgoing chat messages
 export const handleOutgoingChat = (userMessage) => {
@@ -50,8 +65,8 @@ export const generateAPIResponse = async (incomingMessageDiv, userMessage) => {
     const textElement = incomingMessageDiv.querySelector('.text'); // Get text element
 
     try {
-        // Fetch the response from the API using userMessage
-        const apiResponse = await fetchAPIResponse(userMessage);
+        // Fetch the response from the backend using userMessage
+        const apiResponse = await sendMessageToServer(userMessage);
 
         // Handle and display the API response
         if (apiResponse) {
