@@ -13,7 +13,7 @@ import { createUser, findUserByUsername, insertMessage } from './db.js'; // Impo
 import { fetchAPIResponse } from './api.js'; // Import the API function
 
 const app = express();
-const SECRET_KEY = 'qkrwldPtkfkdgo1004wldP'
+const SECRET_KEY = 'YOUR_SECRET_KEY'
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -22,6 +22,19 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Temporally user test
+const insertTempUser = async () => {
+    const username = 'testuser';
+    const password = '1234'; // Plain text password
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await createUser(username, hashedPassword);
+
+    console.log('User inserted:', user);
+};
+
+insertTempUser().catch(console.error);
 
 // User Registration Route
 app.post('/api/register', async (req, res) => {
@@ -39,15 +52,26 @@ app.post('/api/register', async (req, res) => {
 // User Login Route
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
+    console.log('Received Username:', username);
+    console.log('Received Password:', password);
+
     try {
         const user = await findUserByUsername(username);
         if (!user) {
+            console.log('User not found');
             return res.status(400).json({ error: 'Invalid credentials' });
         }
+
+        console.log('Found User:', user);
+
         const isMatch = await bcrypt.compare(password, user.password);
+        console.log('Password Match:', isMatch);
+
         if (!isMatch) {
+            console.log('Password does not match');
             return res.status(400).json({ error: 'Invalid credentials' });
         }
+
         const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
