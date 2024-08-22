@@ -1,3 +1,8 @@
+/*
+manages the connection to the PostgreSQL database
+and provides functions for inserting and retrieving messages from the database.
+*/
+
 import pkg from 'pg';
 import dotenv from 'dotenv';
 

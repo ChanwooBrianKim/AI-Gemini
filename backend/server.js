@@ -1,3 +1,9 @@
+/*
+Purpose: server.js is the main entry point for your backend server. 
+It sets up the Express server, handles routing, and manages requests and responses 
+between the client and the server.
+*/
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';

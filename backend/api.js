@@ -1,7 +1,6 @@
 /*
-Manages the interaction with the external API,
-ensuring that the user's message is sent 
-and the AI's response is received correctly.
+responsible for managing interactions with the external AI API (e.g., Google Generative Language API). 
+It sends user messages to the API and retrieves AI-generated responses.
 */
 
 // API configuration
