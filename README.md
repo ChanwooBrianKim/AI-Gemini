@@ -9,6 +9,7 @@ AI Gemini is an interactive web-based chatbot powered by generative language mod
 - 💾**Chat History Management**: Save chat history in the browser's local storage and restore it on page load. Option to clear chat history is also provided.
 - 📋**Copy to Clipboard**: Copy chat messages to the clipboard with a single click.
 - ⌨️**Typing Animation**: Simulates a typing effect for a more engaging chat experience.
+- 🗄️**Database Integration**: Store chat messages in a PostgreSQL database for persistent storage and retrieval.
 
 ## 🚀 Getting Started
 
@@ -16,6 +17,8 @@ AI Gemini is an interactive web-based chatbot powered by generative language mod
 
 - A modern web browser (Chrome, Firefox, Edge, etc.)
 - Internet connection for API access
+- PostgreSQL installed and configured
+- Node.js installed (with npm)
 
 ### 📥Installation
 
@@ -29,10 +32,34 @@ AI Gemini is an interactive web-based chatbot powered by generative language mod
     ```bash
     cd ai-gemini
 
-3. **Open 'index.html'**
+3. **Set Up Environment Variables**
+- Create a .env file in the root directory and add your PostgreSQL connection string:
 
     ```bash
-    open index.html
+    DATABASE_URL=postgres://yourusername:yourpassword@localhost:5432/ai_gemini_db
+- Replace yourusername, yourpassword, and other details as necessary.
+
+4. **Install Dependencies**
+
+    ```bash
+    npm install
+
+5. **Set Up the Database**
+- Ensure PostgreSQL is running.
+- Run the following command to create the messages table in the database:
+
+    ```bash
+    psql -U yourusername -d ai_gemini_db -f backend/db/create_messages_table.sql
+
+6. **Start the Server**
+
+    ```bash
+    npm start
+
+7. **Open 'index.html' or running local host**
+
+    ```bash
+    open index.html or proper local host
 
 
 ## 💡 Usage
@@ -47,14 +74,40 @@ AI Gemini is an interactive web-based chatbot powered by generative language mod
 - **Delete**: Use the delete button to clear your chat history.
 - **Copy Messages**: Hover over a message and click the copy icon to copy the message to your clipboard.
 
+4. **Database Storage**:
+
+- All chat messages, both user inputs and AI responses, are stored in a PostgreSQL database for persistence.
+- You can access and manage the stored messages using PostgreSQL commands or a tool like pgAdmin.
+
 ## 🛠️Technologies Used
 - 🌐**HTML5**: Structure of the web page
 - 🎨**CSS3**: Styling for the web page, including responsive design and theming
 - 🖥️**JavaScript**: Interactivity and API integration
 - 🤖**Google Generative Language API**: Backend service to generate AI responses
+- ⚙️ **Node.js**: Server-side environment
+- 📦 **Express.js**: Backend web framework
 
 ## 🔑API Key
-This project requires an API key to access the Google Generative Language API. To use the AI Gemini project, replace the placeholder API key in the 'script.js' file with your own.
+This project requires an API key to access the Google Generative Language API. To use the AI Gemini project, replace the placeholder API key in the 'api.js' file with your own.
+
+## Database Setup
+
+- **Database**: PostgreSQL
+- **Schema**: The database contains a messages table structured as follows:
+
+    ```bash
+    CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    sender VARCHAR(50) NOT NULL,  -- 'user' or 'ai'
+    content TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+- **Inserting Messages**: Messages are inserted into the database whenever a user sends a message or the AI responds.
+- **Retrieving Messages**: You can retrieve all stored messages using:
+
+    ```bash
+    SELECT * FROM messages ORDER BY sent_at ASC;
 
 ## 🎨Customization
 - **Theming**: Modify the :'root' CSS variables in 'style.css' to customize the color scheme.
@@ -97,7 +150,9 @@ This project requires an API key to access the Google Generative Language API. T
     ai-gemini/
     │
     ├── backend/               # Backend-related files
-    │   └── api.js             # API interactions and server-side logic
+    │   ├── api.js             # API interactions and server-side logic
+    │   ├── db.js              # Database connection and query logic
+    │   └── create_messages_table.sql  # SQL script to create the messages table
     │
     ├── frontend/              # Frontend-related files
     │   ├── js/                # JavaScript files for frontend
