@@ -14,6 +14,34 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
+// Function to create a new user
+export const createUser = async (username, hashedPassword) => {
+    try {
+        const result = await pool.query(
+            'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
+            [username, hashedPassword]           
+        );
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw error;
+    }
+};
+
+// Function to find a user by username
+export const findUserByUsername = async (username) => {
+    try {
+        const result = await pool.query(
+            'SELECT * FROM users WHERE username = $1',
+            [username]
+        );
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error finding user by username:', error);
+        throw error;
+    }
+};
+
 // Function to insert a message into the database
 export const insertMessage = async (sender, content) => {
     try {
