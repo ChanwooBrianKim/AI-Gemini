@@ -57,7 +57,25 @@
             Gemini could display inaccurate information, including about people, so double-check its facts.
         </p>
     </div>
+
+    <script>
+        // Check if the user is authenticated
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html'; // Redirect to login if not authenticated
+        }
+    </script>
     
     <script type="module" src="js/main.js"></script>
+    
+    <!-- Logout button -->
+    <button id="logout-button">Logout</button>
+
+    <script>
+        document.getElementById('logout-button').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html'; // Redirect to login page after logout
+        });
+    </script>
 </body>
 </html>
