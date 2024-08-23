@@ -330,3 +330,38 @@ body.hide-header .header{
         margin-top: 0.5rem;
     }
 }
+
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #333; /* Example background color */
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    z-index: 1000; /* Ensure it stays on top */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+}
+
+/* Push the content down to avoid overlap with the navbar */
+body {
+    padding-top: 60px; /* Adjust based on the navbar height */
+}
+
+/* Logout Button Styling */
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-left: auto; /* Push the button to the right */
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
