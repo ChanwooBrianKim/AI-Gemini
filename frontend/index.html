@@ -35,6 +35,16 @@
          </ul>
     </header>
 
+    <!-- Logout button
+    <button id="logout-button">Logout</button>
+
+    <script>
+        document.getElementById('logout-button').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html'; // Redirect to login page after logout
+        });
+    </script> -->
+
     <!-- Chat list / Container -->
     <div class="chat-list"></div>
 
@@ -68,14 +78,16 @@
     
     <script type="module" src="js/main.js"></script>
     
-    <!-- Logout button -->
-    <button id="logout-button">Logout</button>
-
+    <nav class="navbar">
+        <!-- Other navbar content -->
+        <button id="logout-button" class="logout-btn">Logout</button>
+    </nav>
     <script>
         document.getElementById('logout-button').addEventListener('click', () => {
             localStorage.removeItem('token');
             window.location.href = 'login.html'; // Redirect to login page after logout
         });
     </script>
+    
 </body>
 </html>
