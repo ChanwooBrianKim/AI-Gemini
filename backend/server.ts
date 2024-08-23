@@ -9,11 +9,14 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createUser, findUserByUsername, insertMessage, User } from './db'; // Import the function to insert messages into the DB
-import { fetchAPIResponse } from './api'; // Import the API function
+import { createUser, findUserByUsername, insertMessage } from './db.js'; // Import the function to insert messages into the DB
+import { fetchAPIResponse } from './api.js'; // Import the API function
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-const SECRET_KEY = 'YOUR_SECRET_KEY';
+const SECRET_KEY = process.env.SECRET_KEY || 'YOUR_SECRET_KEY'; // Use environment variable for the secret key
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -22,19 +25,20 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../dist/frontend')));
 
-// Temporally user test
-const insertTempUser = async () => {
-    const username = 'testuser';
-    const password = '1234'; // Plain text password
+// // Temporarily insert a test user (for development/testing purposes)
+// const insertTempUser = async () => {
+//     const username = 'testuser';
+//     const password = '1234'; // Plain text password
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await createUser(username, hashedPassword);
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const user = await createUser(username, hashedPassword);
 
-    console.log('User inserted:', user);
-};
+//     console.log('User inserted:', user);
+// };
 
-insertTempUser().catch(console.error);
+// insertTempUser().catch(console.error);
 
 // User Registration Route
 app.post('/api/register', async (req: Request, res: Response) => {
