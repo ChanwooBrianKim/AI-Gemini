@@ -15,11 +15,30 @@ import { showTypingEffect, showLoadingAnimation } from './ui.js'; // Import show
 // Function to send a message to the server and retrieve the AI's response
 const sendMessageToServer = async (userMessage: string): Promise<string> => {
     try {
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem('token');
+
+        // Check if the token exists
+        if (!token) {
+            throw new Error('No token found, user might not be authenticated');
+        }
+
+        // Send the request with the Authorization header
         const response = await fetch('/api/message', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Attach the token
+            },
             body: JSON.stringify({ userMessage }),
         });
+
+        // Check if the response is unauthorized
+        if (response.status === 401) {
+            throw new Error('Unauthorized - Please login again.');
+        }
+
+        // Parse the response as JSON
         const data = await response.json();
         return data.response; // Assuming the server returns { response: "AI's response" }
     } catch (error) {
