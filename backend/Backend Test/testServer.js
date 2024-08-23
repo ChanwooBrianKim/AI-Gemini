@@ -19,18 +19,18 @@
 // const __dirname = path.dirname(__filename);
 // app.use(express.static(path.join(__dirname, '../frontend')));
 
-// User Registration Route
-app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await createUser(username, hashedPassword);
-        res.status(201).json({ message: 'User created successfully', user });
-    } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ error: 'Failed to create user' });
-    }
-});
+// // User Registration Route
+// app.post('/api/register', async (req, res) => {
+//     const { username, password } = req.body;
+//     try {
+//         const hashedPassword = await bcrypt.hash(password, 10);
+//         const user = await createUser(username, hashedPassword);
+//         res.status(201).json({ message: 'User created successfully', user });
+//     } catch (error) {
+//         console.error('Error creating user:', error);
+//         res.status(500).json({ error: 'Failed to create user' });
+//     }
+// });
 
 // // User Login Route
 // app.post('/api/login', async (req, res) => {
@@ -97,4 +97,27 @@ app.post('/api/register', async (req, res) => {
 // const PORT = process.env.PORT || 5000;
 // app.listen(PORT, () => {
 //     console.log(`Server is running on port ${PORT}`);
+// });
+
+// // register test
+// app.post('/api/register', async (req, res) => {
+//     const { username, password } = req.body;
+
+//     try {
+//         // Check if the user already exists
+//         const existingUser = await findUserByUsername(username);
+//         if (existingUser) {
+//             return res.status(400).json({ error: 'Username already taken' });
+//         }
+
+//         // Hash the password
+//         const hashedPassword = await bcrypt.hash(password, 10);
+
+//         // Create the user
+//         const newUser = await createUser(username, hashedPassword);
+//         res.status(201).json({ message: 'User registered successfully', user: newUser });
+//     } catch (error) {
+//         console.error('Error creating user:', error);
+//         res.status(500).json({ error: 'Failed to create user' });
+//     }
 // });
