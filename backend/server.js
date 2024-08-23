@@ -39,13 +39,30 @@ insertTempUser().catch(console.error);
 // User Registration Route
 app.post('/api/register', async (req, res) => {
     const { username, password } = req.body;
+    // try {
+    //     const hashedPassword = await bcrypt.hash(password, 10);
+    //     const user = await createUser(username, hashedPassword);
+    //     res.status(201).json({ message: 'User created successfully', user });
+    // } catch (error) {
+    //     console.error('Error creating user:', error);
+    //     res.status(500).json({ error: 'Failed to create user' });
+    // }
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await createUser(username, hashedPassword);
-        res.status(201).json({ message: 'User created successfully', user });
+        // Check if the user already exists
+        const existingUser = await findUserByUsername(username);
+        if (existingUser) {
+            return res.status(400).json({ error: 'User already exists='});
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 15);
+
+        // Create user
+        const newUser = await createUser(username, hashedPassword);
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ error: 'Failed to create user' });
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Failed to register user' });
     }
 });
 
