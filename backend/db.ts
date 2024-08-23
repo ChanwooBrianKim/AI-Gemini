@@ -3,11 +3,13 @@ Manages the connection to the PostgreSQL database
 and provides functions for inserting and retrieving messages from the database.
 */
 
-import { Pool, QueryResult } from 'pg';
-
+import pkg from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+// Use destructuring to get Pool and QueryResult from the pg package
+const { Pool } = pkg;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -31,7 +33,7 @@ export interface Message {
 // Function to create a new user
 export const createUser = async (username: string, hashedPassword: string): Promise<User> => {
     try {
-        const result: QueryResult<User> = await pool.query(
+        const result: pkg.QueryResult<User> = await pool.query(
             'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
             [username, hashedPassword]
         );
@@ -45,7 +47,7 @@ export const createUser = async (username: string, hashedPassword: string): Prom
 // Function to find a user by username
 export const findUserByUsername = async (username: string): Promise<User | null> => {
     try {
-        const result: QueryResult<User> = await pool.query(
+        const result: pkg.QueryResult<User> = await pool.query(
             'SELECT * FROM users WHERE username = $1',
             [username]
         );
@@ -60,7 +62,7 @@ export const findUserByUsername = async (username: string): Promise<User | null>
 export const insertMessage = async (sender: string, content: string): Promise<Message> => {
     try {
         console.log(`Inserting message into DB: sender=${sender}, content=${content}`);
-        const result: QueryResult<Message> = await pool.query(
+        const result: pkg.QueryResult<Message> = await pool.query(
             'INSERT INTO messages (sender, content) VALUES ($1, $2) RETURNING *',
             [sender, content]
         );
@@ -75,7 +77,7 @@ export const insertMessage = async (sender: string, content: string): Promise<Me
 // Function to retrieve all messages (for reference)
 export const getAllMessages = async (): Promise<Message[]> => {
     try {
-        const result: QueryResult<Message> = await pool.query('SELECT * FROM messages ORDER BY sent_at ASC');
+        const result: pkg.QueryResult<Message> = await pool.query('SELECT * FROM messages ORDER BY sent_at ASC');
         return result.rows;
     } catch (error) {
         console.error('Error retrieving messages:', error);
