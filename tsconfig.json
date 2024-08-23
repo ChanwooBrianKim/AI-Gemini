@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "dotenv"],
     "outDir": "./dist",
     "rootDir": "./",
     "module": "ESNext",
@@ -8,7 +8,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
   },
   "include": ["backend/**/*.ts", "frontend/**/*.ts"],
   "exclude": ["node_modules", "dist"]
