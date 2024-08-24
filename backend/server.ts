@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createUser, findUserByUsername, insertMessage } from './db.js'; // Import the function to insert messages into the DB
+import { createUser, findUserByUsername, getAllMessages, insertMessage } from './db.js'; // Import the function to insert messages into the DB
 import { fetchAPIResponse } from './api.js'; // Import the API function
 import dotenv from 'dotenv';
 
@@ -117,22 +117,35 @@ app.get('/', (req: Request, res: Response) => {
 // API endpoint to handle messages
 app.post('/api/message', authenticateToken, async (req: Request, res: Response) => {
     const { userMessage } = req.body;
+    const user = (req as any).user;
     try {
         console.log('Received user message:', userMessage);
 
         // First, insert the user's message into the database
-        await insertMessage('user', userMessage);
+        await insertMessage(user.id, 'user', userMessage);
 
         // Then, fetch the AI's response
         const apiResponse = await fetchAPIResponse(userMessage);
 
         // Insert the AI's response into the database
-        await insertMessage('ai', apiResponse);
+        await insertMessage(user.id, 'ai', apiResponse);
 
         res.status(200).json({ response: apiResponse });
     } catch (error) {
         console.error('Error handling /api/message:', error);
         res.status(500).json({ error: 'Failed to handle the message.' });
+    }
+});
+
+// API endpoint to retrieve chat history
+app.get('/api/messages', authenticateToken, async (req: Request, res: Response) => {
+    const user = (req as any).user;
+
+    try {
+        const messages = await getAllMessages(user.id);
+        res.status(200).json({ messages });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retreive messages.' });
     }
 });
 
