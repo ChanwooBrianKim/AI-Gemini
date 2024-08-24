@@ -56,8 +56,15 @@ const loadMessages = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         });
+
         const data = await response.json();
         const chatList = document.querySelector(".chat-list") as HTMLElement;
+
+        if (!data.messages || data.messages.length === 0) {
+            chatList.innerHTML = '<p>No chat history found.</p>';
+            return;
+        }
+
         data.messages.forEach((message: { sender: string, content: string }) => {
             const html = `
                 <div class="message-content">
