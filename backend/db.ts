@@ -25,10 +25,12 @@ export interface User {
 
 export interface Message {
     id: number;
+    user_id: number;
     sender: string;
     content: string;
     sent_at: Date;
 }
+
 
 // Function to create a new user
 export const createUser = async (username: string, hashedPassword: string): Promise<User> => {
@@ -59,12 +61,12 @@ export const findUserByUsername = async (username: string): Promise<User | null>
 };
 
 // Function to insert a message into the database
-export const insertMessage = async (sender: string, content: string): Promise<Message> => {
+export const insertMessage = async (user_id: number, sender: string, content: string): Promise<Message> => {
     try {
         console.log(`Inserting message into DB: sender=${sender}, content=${content}`);
         const result: pkg.QueryResult<Message> = await pool.query(
             'INSERT INTO messages (sender, content) VALUES ($1, $2) RETURNING *',
-            [sender, content]
+            [user_id, sender, content]
         );
         console.log('Message inserted:', result.rows[0]);
         return result.rows[0];
@@ -75,9 +77,12 @@ export const insertMessage = async (sender: string, content: string): Promise<Me
 };
 
 // Function to retrieve all messages (for reference)
-export const getAllMessages = async (): Promise<Message[]> => {
+export const getAllMessages = async (user_id:number): Promise<Message[]> => {
     try {
-        const result: pkg.QueryResult<Message> = await pool.query('SELECT * FROM messages ORDER BY sent_at ASC');
+        const result: pkg.QueryResult<Message> = await pool.query(
+            'SELECT * FROM messages ORDER BY sent_at ASC',
+            [user_id]
+        );
         return result.rows;
     } catch (error) {
         console.error('Error retrieving messages:', error);
