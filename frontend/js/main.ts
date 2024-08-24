@@ -47,6 +47,31 @@ const sendMessageToServer = async (userMessage: string): Promise<string> => {
     }
 };
 
+// Function to fetch and display messages on page load
+const loadMessages = async () => {
+    try {
+        const response = await fetch('/api/messages', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+        const data = await response.json();
+        const chatList = document.querySelector(".chat-list") as HTMLElement;
+        data.messages.forEach((message: { sender: string, content: string }) => {
+            const html = `
+                <div class="message-content">
+                    <img src="${message.sender === 'user' ? '../../image/user.png' : '../../image/gemini.png'}" alt="${message.sender} Image" class="avatar">
+                    <p class="text">${message.content}</p>
+                </div>`;
+            const messageDiv = createMessageElement(html, message.sender === 'user' ? 'outgoing' : 'incoming');
+            chatList.appendChild(messageDiv);
+        });
+    } catch (error) {
+        console.error('Error loading messages:', error);
+    }
+};
+
 // Function to handle outgoing chat messages
 export const handleOutgoingChat = (userMessage: string): void => {
     // Exit if there is no message or if a response is already being generated
@@ -119,3 +144,6 @@ loadLocalStorageData(
     document.querySelector(".chat-list") as HTMLElement, 
     document.querySelector("#toggle-theme-button") as HTMLElement
 );
+
+// Load messages from the database when the page loads
+loadMessages();
