@@ -3,7 +3,13 @@ Responsible for managing interactions with the external AI API (e.g., Google Gen
 It sends user messages to the API and retrieves AI-generated responses.
 */
 
-const API_KEY: string = "YOUR_API_KEY";  // Replace with your actual API key
+// Import dotenv to load environment variables from the .env file
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+const API_KEY: string = process.env.API_KEY || '';  // Default to an empty string if not set
 const API_URL: string = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 /**
