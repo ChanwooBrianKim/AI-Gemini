@@ -65,7 +65,7 @@ export const insertMessage = async (user_id: number, sender: string, content: st
     try {
         console.log(`Inserting message into DB: sender=${sender}, content=${content}`);
         const result: pkg.QueryResult<Message> = await pool.query(
-            'INSERT INTO messages (sender, content) VALUES ($1, $2) RETURNING *',
+            'INSERT INTO messages (user_id, sender, content) VALUES ($1, $2, $3) RETURNING *',
             [user_id, sender, content]
         );
         console.log('Message inserted:', result.rows[0]);
@@ -86,6 +86,20 @@ export const getAllMessages = async (user_id:number): Promise<Message[]> => {
         return result.rows;
     } catch (error) {
         console.error('Error retrieving messages:', error);
+        throw error;
+    }
+};
+
+// Function to get all messages for a specific user
+export const getMessagesForUser = async (userId: number): Promise<Message[]> => {
+    try {
+        const result: pkg.QueryResult<Message> = await pool.query(
+            'SELECT * FROM messages WHERE user_id = $1 ORDER BY sent_at ASC',
+            [userId]
+        );
+        return result.rows;
+    } catch (error) {
+        console.error('Error retrieving messages for user:', error);
         throw error;
     }
 };
