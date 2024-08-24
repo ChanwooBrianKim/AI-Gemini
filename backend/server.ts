@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createUser, findUserByUsername, getAllMessages, insertMessage } from './db.js'; // Import the function to insert messages into the DB
+import { createUser, findUserByUsername, insertMessage, getMessagesForUser } from './db.js'; // Import the function to insert messages into the DB
 import { fetchAPIResponse } from './api.js'; // Import the API function
 import dotenv from 'dotenv';
 
@@ -139,13 +139,19 @@ app.post('/api/message', authenticateToken, async (req: Request, res: Response) 
 
 // API endpoint to retrieve chat history
 app.get('/api/messages', authenticateToken, async (req: Request, res: Response) => {
-    const user = (req as any).user;
-
     try {
-        const messages = await getAllMessages(user.id);
+        const messages = await getMessagesForUser((req as any).user.id); // Fetch messages for the logged-in user
+
+        if (!messages || messages.length === 0) {
+            // If no messages are found, return a response indicating to start fresh
+            return res.status(200).json({ messages: [], startFresh: true });
+        }
+
+        // If messages are found, return them
         res.status(200).json({ messages });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retreive messages.' });
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ error: 'Failed to fetch messages' });
     }
 });
 
