@@ -12,6 +12,8 @@ import {
 import { setupEventListeners } from './events.js'; // Import setupEventListeners from events.js
 import { showTypingEffect, showLoadingAnimation } from './ui.js'; // Import showTypingEffect and showLoadingAnimation from ui.js
 
+const noHistoryElement = document.getElementById('no-history');
+
 // Function to send a message to the server and retrieve the AI's response
 const sendMessageToServer = async (userMessage: string): Promise<string> => {
     try {
@@ -59,30 +61,41 @@ const loadMessages = async () => {
 
         const data = await response.json();
         const chatList = document.querySelector(".chat-list") as HTMLElement;
+        const noHistoryElement = document.getElementById('no-history');
 
         if (!data.messages || data.messages.length === 0) {
-            chatList.innerHTML = '<p>No chat history found.</p>';
-            return;
-        }
+            if (noHistoryElement) {
+                noHistoryElement.style.display = 'block'; // Show "No chat history found" message
+            }
+        } else {
+            if (noHistoryElement) {
+                noHistoryElement.style.display = 'none'; // Hide "No chat history found" message
+            }
 
-        data.messages.forEach((message: { sender: string, content: string }) => {
-            const html = `
-                <div class="message-content">
-                    <img src="${message.sender === 'user' ? '../../image/user.png' : '../../image/gemini.png'}" alt="${message.sender} Image" class="avatar">
-                    <p class="text">${message.content}</p>
-                </div>`;
-            const messageDiv = createMessageElement(html, message.sender === 'user' ? 'outgoing' : 'incoming');
-            chatList.appendChild(messageDiv);
-        });
+            data.messages.forEach((message: { sender: string, content: string }) => {
+                const html = `
+                    <div class="message-content">
+                        <img src="${message.sender === 'user' ? '../../image/user.png' : '../../image/gemini.png'}" alt="${message.sender} Image" class="avatar">
+                        <p class="text">${message.content}</p>
+                    </div>`;
+                const messageDiv = createMessageElement(html, message.sender === 'user' ? 'outgoing' : 'incoming');
+                chatList.appendChild(messageDiv);
+            });
+        }
     } catch (error) {
         console.error('Error loading messages:', error);
     }
 };
 
+
 // Function to handle outgoing chat messages
 export const handleOutgoingChat = (userMessage: string): void => {
     // Exit if there is no message or if a response is already being generated
     if (!userMessage || getIsResponseGenerating()) return; 
+
+    if (noHistoryElement) {
+        noHistoryElement.remove();
+    }
     
     // Set the flag indicating that a response is being generated
     setIsResponseGenerating(true);
@@ -136,6 +149,13 @@ export const generateAPIResponse = async (incomingMessageDiv: HTMLElement, userM
         incomingMessageDiv.classList.remove("loading");
     }
 };
+
+// Function to handle user logout
+document.getElementById('logout-button')?.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('savedChats'); // Clear chat history from local storage
+    window.location.href = 'login.html'; // Redirect to login page after logout
+});
 
 // Initialize event listeners for various UI elements
 setupEventListeners(
