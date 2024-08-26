@@ -5,7 +5,7 @@ orchestrating the flow of the application by coordinating between different modu
 
 import { 
     createMessageElement, 
-    loadLocalStorageData, 
+    // loadLocalStorageData, 
     setIsResponseGenerating, 
     getIsResponseGenerating 
 } from './core.js'; // Import functions from core.js
@@ -166,11 +166,11 @@ setupEventListeners(
     document.querySelectorAll(".suggestion-list .suggestion") as NodeListOf<Element>
 );
 
-// Load local storage data to restore previous chats and theme settings
-loadLocalStorageData(
-    document.querySelector(".chat-list") as HTMLElement, 
-    document.querySelector("#toggle-theme-button") as HTMLElement
-);
+// // Load local storage data to restore previous chats and theme settings
+// loadLocalStorageData(
+//     document.querySelector(".chat-list") as HTMLElement, 
+//     document.querySelector("#toggle-theme-button") as HTMLElement
+// );
 
 // Load messages from the database when the page loads
 loadMessages();
