@@ -19,7 +19,7 @@ export const showTypingEffect = (text: string, textElement: HTMLElement, incomin
             clearInterval(typingInterval);
             setIsResponseGenerating(false);
             incomingMessageDiv.querySelector(".icon")?.classList.remove("hide");
-            localStorage.setItem("savedChats", chatList.innerHTML); // Save chat
+            // localStorage.setItem("savedChats", chatList.innerHTML); // Save chat
         }
         chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom
     }, 75);
