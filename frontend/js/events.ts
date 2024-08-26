@@ -4,7 +4,7 @@ to handle events like sending messages, toggling themes, and managing chat histo
 */
 
 import { handleOutgoingChat } from './main.js';
-import { loadLocalStorageData } from './core.js';
+// import { loadLocalStorageData } from './core.js';
 
 // Define the types for the parameters
 export const setupEventListeners = (
@@ -21,13 +21,13 @@ export const setupEventListeners = (
         toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
     });
 
-    // Delete all chats from local storage when button is clicked
-    deleteChatButton.addEventListener("click", () => {
-        if (confirm("Are you sure you want to delete all chats?")) {
-            localStorage.removeItem("savedChats");
-            loadLocalStorageData(chatList, toggleThemeButton);
-        }
-    });
+    // // Delete all chats from local storage when button is clicked
+    // deleteChatButton.addEventListener("click", () => {
+    //     if (confirm("Are you sure you want to delete all chats?")) {
+    //         localStorage.removeItem("savedChats");
+    //         loadLocalStorageData(chatList, toggleThemeButton);
+    //     }
+    // });
 
     // Set userMessage and handle outgoing chat when a suggestion is clicked
     suggestions.forEach(suggestion => {
@@ -44,3 +44,12 @@ export const setupEventListeners = (
         handleOutgoingChat(userMessage);
     });
 };
+
+// Initialize event listeners for various UI elements
+setupEventListeners(
+    document.querySelector(".typing-form") as HTMLFormElement,
+    document.querySelector(".chat-list") as HTMLElement,
+    document.querySelector("#toggle-theme-button") as HTMLElement,
+    document.querySelector("#delete-chat-button") as HTMLElement,
+    document.querySelectorAll(".suggestion-list .suggestion") as NodeListOf<Element>
+);
