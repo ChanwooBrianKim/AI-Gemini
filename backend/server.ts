@@ -86,10 +86,11 @@ app.post('/api/login', async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+        console.log('Generated token:', token);
+
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
-        console.error('Error during login:', error);
         res.status(500).json({ error: 'Failed to log in' });
     }
 });
