@@ -70,6 +70,8 @@ const loadMessages = async () => {
         } else {
             if (noHistoryElement) {
                 noHistoryElement.style.display = 'none'; // Hide "No chat history found" message
+                // Hide the header once chat starts
+                document.body.classList.add("hide-header");
             }
 
             data.messages.forEach((message: { sender: string, content: string }) => {
@@ -150,6 +152,32 @@ export const generateAPIResponse = async (incomingMessageDiv: HTMLElement, userM
     }
 };
 
+// Function to decode JWT token
+function decodeToken(token: string): { username: string } | null {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decoding the JWT token payload
+        return payload;
+    } catch (error) {
+        return null;
+    }
+}
+
+// Function to display the username
+function displayUsername() {
+    const token = localStorage.getItem('token');
+    console.log('Token from localStorage:', token);
+    if (token) {
+        const decoded = decodeToken(token);
+        console.log('Decoded:', decoded);
+        if (decoded && decoded.username) {
+            const usernameDisplay = document.getElementById('username-display') as HTMLElement;
+            if (usernameDisplay) {
+                usernameDisplay.innerText = `Welcome, ${decoded.username}`;
+            }
+        }
+    }
+}
+
 // Function to handle user logout
 document.getElementById('logout-button')?.addEventListener('click', () => {
     localStorage.removeItem('token');
@@ -157,20 +185,16 @@ document.getElementById('logout-button')?.addEventListener('click', () => {
     window.location.href = 'login.html'; // Redirect to login page after logout
 });
 
-// Initialize event listeners for various UI elements
-setupEventListeners(
-    document.querySelector(".typing-form") as HTMLFormElement,
-    document.querySelector(".chat-list") as HTMLElement,
-    document.querySelector("#toggle-theme-button") as HTMLElement,
-    document.querySelector("#delete-chat-button") as HTMLElement,
-    document.querySelectorAll(".suggestion-list .suggestion") as NodeListOf<Element>
-);
-
 // // Load local storage data to restore previous chats and theme settings
 // loadLocalStorageData(
 //     document.querySelector(".chat-list") as HTMLElement, 
 //     document.querySelector("#toggle-theme-button") as HTMLElement
 // );
+
+// Initialize when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    displayUsername();
+});
 
 // Load messages from the database when the page loads
 loadMessages();
