@@ -41,7 +41,6 @@
 
     <!-- Chat list / Container -->
     <div class="chat-list">
-        <p id="no-history">No chat history found.</p>
         <!-- Messages will be appended here -->
     </div>
 
@@ -72,19 +71,18 @@
             window.location.href = 'login.html'; // Redirect to login if not authenticated
         }
     </script>
-    
-    <script type="module" src="js/main.js"></script>
-    
+        
     <nav class="navbar">
-        <!-- Other navbar content -->
+        <span id="username-display"></span>
         <button id="logout-button" class="logout-btn">Logout</button>
     </nav>
-    <script>
+    <!-- <script>
         document.getElementById('logout-button').addEventListener('click', () => {
-            localStorage.removeItem('token');
-            window.location.href = 'login.html'; // Redirect to login page after logout
+            // localStorage.removeItem('token');
+            // window.location.href = 'login.html'; // Redirect to login page after logout
         });
-    </script>
-    
+    </script> -->
+    <script type="module" src="js/main.js"></script>
+
 </body>
 </html>
