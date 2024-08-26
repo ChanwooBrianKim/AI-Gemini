@@ -23,18 +23,18 @@ export const createMessageElement = (content: string, ...classes: string[]): HTM
     return div;
 };
 
-// Function to load data from local storage
-export const loadLocalStorageData = (chatList: HTMLElement, toggleThemeButton: HTMLElement): void => {
-    const savedChats: string | null = localStorage.getItem("savedChats");
-    const isLightMode: boolean = (localStorage.getItem("themeColor") === "light_mode");
+// // Function to load data from local storage
+// export const loadLocalStorageData = (chatList: HTMLElement, toggleThemeButton: HTMLElement): void => {
+//     const savedChats: string | null = localStorage.getItem("savedChats");
+//     const isLightMode: boolean = (localStorage.getItem("themeColor") === "light_mode");
 
-    // Apply the stored theme
-    document.body.classList.toggle("light_mode", isLightMode);
-    toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
+//     // Apply the stored theme
+//     document.body.classList.toggle("light_mode", isLightMode);
+//     toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
 
-    // Restore saved chats
-    chatList.innerHTML = savedChats || "";
+//     // Restore saved chats
+//     chatList.innerHTML = savedChats || "";
 
-    document.body.classList.toggle("hide-header", !!savedChats);
-    chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom
-};
+//     document.body.classList.toggle("hide-header", !!savedChats);
+//     chatList.scrollTo(0, chatList.scrollHeight); // Scroll to the bottom
+// };
