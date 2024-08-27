@@ -27,19 +27,6 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.static(path.join(__dirname, '../dist/frontend')));
 
-// // Temporarily insert a test user (for development/testing purposes)
-// const insertTempUser = async () => {
-//     const username = 'testuser';
-//     const password = '1234'; // Plain text password
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const user = await createUser(username, hashedPassword);
-
-//     console.log('User inserted:', user);
-// };
-
-// insertTempUser().catch(console.error);
-
 // User Registration Route
 app.post('/api/register', async (req: Request, res: Response) => {
     const { username, password } = req.body;
