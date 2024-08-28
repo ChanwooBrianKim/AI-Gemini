@@ -36,12 +36,3 @@ export const setupEventListeners = (
         handleOutgoingChat(userMessage);
     });
 };
-
-// Initialize event listeners for various UI elements
-setupEventListeners(
-    document.querySelector(".typing-form") as HTMLFormElement,
-    document.querySelector(".chat-list") as HTMLElement,
-    document.querySelector("#toggle-theme-button") as HTMLElement,
-    document.querySelector("#delete-chat-button") as HTMLElement,
-    document.querySelectorAll(".suggestion-list .suggestion") as NodeListOf<Element>
-);
