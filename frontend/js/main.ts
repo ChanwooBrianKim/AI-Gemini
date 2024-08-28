@@ -5,14 +5,12 @@ orchestrating the flow of the application by coordinating between different modu
 
 import { 
     createMessageElement, 
-    // loadLocalStorageData, 
+    // loadLocalStorageData, // will not store chat history in local storage
     setIsResponseGenerating, 
     getIsResponseGenerating 
 } from './core.js'; // Import functions from core.js
 import { setupEventListeners } from './events.js'; // Import setupEventListeners from events.js
 import { showTypingEffect, showLoadingAnimation } from './ui.js'; // Import showTypingEffect and showLoadingAnimation from ui.js
-
-const noHistoryElement = document.getElementById('no-history');
 
 // Function to send a message to the server and retrieve the AI's response
 const sendMessageToServer = async (userMessage: string): Promise<string> => {
@@ -52,13 +50,14 @@ const sendMessageToServer = async (userMessage: string): Promise<string> => {
 // Function to fetch and display messages on page load
 const loadMessages = async () => {
     try {
+        // Fetch messages from the server
         const response = await fetch('/api/messages', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         });
-
+        
         const data = await response.json();
         const chatList = document.querySelector(".chat-list") as HTMLElement;
         const noHistoryElement = document.getElementById('no-history');
@@ -74,6 +73,7 @@ const loadMessages = async () => {
                 document.body.classList.add("hide-header");
             }
 
+            // Display the messages in the chat list
             data.messages.forEach((message: { sender: string, content: string }) => {
                 const html = `
                     <div class="message-content">
@@ -89,8 +89,9 @@ const loadMessages = async () => {
     }
 };
 
-
 // Function to handle outgoing chat messages
+const noHistoryElement = document.getElementById('no-history');
+
 export const handleOutgoingChat = (userMessage: string): void => {
     // Exit if there is no message or if a response is already being generated
     if (!userMessage || getIsResponseGenerating()) return; 
