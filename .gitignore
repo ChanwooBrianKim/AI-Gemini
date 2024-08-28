@@ -3,3 +3,4 @@ dist/
 .env
 create_messages_table.sql
 create_users_table.sql
+create_schema.sql
