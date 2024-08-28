@@ -21,14 +21,6 @@ export const setupEventListeners = (
         toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
     });
 
-    // // Delete all chats from local storage when button is clicked
-    // deleteChatButton.addEventListener("click", () => {
-    //     if (confirm("Are you sure you want to delete all chats?")) {
-    //         localStorage.removeItem("savedChats");
-    //         loadLocalStorageData(chatList, toggleThemeButton);
-    //     }
-    // });
-
     // Set userMessage and handle outgoing chat when a suggestion is clicked
     suggestions.forEach(suggestion => {
         suggestion.addEventListener("click", () => {
