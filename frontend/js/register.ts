@@ -1,3 +1,4 @@
+// Register form
 document.getElementById('register-form')?.addEventListener('submit', async (e: Event) => {
     e.preventDefault();
 
