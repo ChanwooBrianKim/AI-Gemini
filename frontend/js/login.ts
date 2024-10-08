@@ -1,3 +1,4 @@
+// Login form
 document.getElementById('login-form')?.addEventListener('submit', async (e: Event) => {
     e.preventDefault();  // Prevent default form submission behavior
 
