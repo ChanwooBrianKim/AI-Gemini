@@ -4,7 +4,6 @@ to handle events like sending messages, toggling themes, and managing chat histo
 */
 
 import { handleOutgoingChat } from './main.js';
-// import { loadLocalStorageData } from './core.js';
 
 // Define the types for the parameters
 export const setupEventListeners = (
