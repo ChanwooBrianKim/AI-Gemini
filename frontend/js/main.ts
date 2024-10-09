@@ -186,12 +186,6 @@ document.getElementById('logout-button')?.addEventListener('click', () => {
     window.location.href = 'login.html'; // Redirect to login page after logout
 });
 
-// // Load local storage data to restore previous chats and theme settings
-// loadLocalStorageData(
-//     document.querySelector(".chat-list") as HTMLElement, 
-//     document.querySelector("#toggle-theme-button") as HTMLElement
-// );
-
 // Initialize when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     displayUsername();
