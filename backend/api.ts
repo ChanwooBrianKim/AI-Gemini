@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
+// API_KEY stored in .env for security reason
 const API_KEY: string = process.env.API_KEY || '';  // Default to an empty string if not set
 const API_URL: string = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
